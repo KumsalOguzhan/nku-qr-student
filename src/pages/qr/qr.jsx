@@ -1,19 +1,92 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { QrReader } from "react-qr-reader";
 import { Col, Row } from "reactstrap";
-import QRCode from "react-qr-code";
+import api from "../../services/api";
 
 const Qr = () => {
-  const [data, setData] = useState("Değer Yok");
+  const [data, setData] = useState();
+  const [lecture, setLecture] = useState();
+  const [subject, setSubject] = useState();
+  const [teacher, setTeacher] = useState();
+  const [classroom, setClassroom] = useState();
+
+  useEffect(() => {
+    const fetchLectures = async () => {
+      try {
+        const response = await api.get(`/lecture/${data}`);
+        setLecture(response.data[0]);
+      } catch (err) {
+        if (err.response) {
+          console.log(err.response.data);
+          console.log(err.response.status);
+          console.log(err.response.headers);
+        } else {
+          console.log("Error: " + err.message);
+        }
+      }
+    };
+    fetchLectures();
+  }, [data]);
+
+  useEffect(() => {
+    const fetchLectures = async () => {
+      try {
+        const response = await api.get(`/subject/${lecture.SubjectID}`);
+        setSubject(response.data[0]);
+      } catch (err) {
+        if (err.response) {
+          console.log(err.response.data);
+          console.log(err.response.status);
+          console.log(err.response.headers);
+        } else {
+          console.log("Error: " + err.message);
+        }
+      }
+    };
+    fetchLectures();
+  }, [lecture]);
+
+  useEffect(() => {
+    const fetchLectures = async () => {
+      try {
+        const response = await api.get(`/teacher/${lecture.TeacherID}`);
+        setTeacher(response.data[0]);
+      } catch (err) {
+        if (err.response) {
+          console.log(err.response.data);
+          console.log(err.response.status);
+          console.log(err.response.headers);
+        } else {
+          console.log("Error: " + err.message);
+        }
+      }
+    };
+    fetchLectures();
+  }, [lecture]);
+
+  useEffect(() => {
+    const fetchLectures = async () => {
+      try {
+        const response = await api.get(`/classroom/${lecture.ClassroomID}`);
+        setClassroom(response.data[0]);
+      } catch (err) {
+        if (err.response) {
+          console.log(err.response.data);
+          console.log(err.response.status);
+          console.log(err.response.headers);
+        } else {
+          console.log("Error: " + err.message);
+        }
+      }
+    };
+    fetchLectures();
+  }, [lecture]);
 
   return (
     <div>
       <Row>
         <Col>
           <h1>Qr okuma</h1>
-        </Col>
-        <Col>
-          <h1>Qr üretme</h1>
         </Col>
       </Row>
       <Row>
@@ -27,24 +100,18 @@ const Qr = () => {
               }
 
               if (!!error) {
-                console.info(error);
+                //console.info(error);
               }
             }}
             style={{ width: "100%" }}
           />
-          <p>{data}</p>
+          <p>Ders id: {data}</p>
         </Col>
         <Col>
-          <div>
-            <QRCode
-              size={256}
-              className="w-50"
-              value={
-                "InspectionID=4"
-              }
-              viewBox={`0 0 256 256`}
-            />
-          </div>
+            <h5>Ders: {subject?.Name}</h5>
+            <h5>Öğretmen: {teacher?.Name} {teacher?.Surname}</h5>
+            <h5>Sınıf: {classroom?.ClassNO}</h5>
+            {subject?.Name ? <h3 className="text-success">Derse katıldı</h3> : null}
         </Col>
       </Row>
     </div>

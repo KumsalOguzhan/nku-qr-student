@@ -15,7 +15,7 @@ import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 
 const validationSchema = Yup.object({
-  email: Yup.string().email("Geçersiz e-mail adresi").required("Zorunlu alan"),
+  studentNo: Yup.number().required("Zorunlu alan"),
   password: Yup.string().min(6, "Şifreniz çok kısa").required("Şifre gerekli"),
 });
 
@@ -27,35 +27,35 @@ const SignIn = () => {
         <div className="col-6 align-self-center">
           <Card>
             <CardBody>
-              <CardTitle tag="h5">QR Yoklama Yönetim</CardTitle>
+              <CardTitle tag="h5">QR Öğrenci</CardTitle>
               <CardSubtitle className="mb-2 text-muted" tag="h6">
                 Giriş Sayfası
               </CardSubtitle>
               <Formik
-                initialValues={{ email: "", password: "" }}
+                initialValues={{ studentNo: Number(), password: "" }}
                 validationSchema={validationSchema}
                 onSubmit={(values) => {
-                  console.log(values.email);
+                  console.log(values.studentNo);
                   console.log(values.password)
-                  if (values.email === "admin@nku.edu.tr" && values.password === "123456") {
-                    navigate("/")
+                  if (values.studentNo === "2180656010" && values.password === "123456") {
+                    navigate("/lecture")
                   }
                 }}
               >
                 {({ handleSubmit, handleChange, values, errors }) => (
                   <Form onSubmit={handleSubmit}>
                     <FormGroup>
-                      <Label for="email">Email</Label>
+                      <Label for="studentNo">Öğrenci Numarası</Label>
                       <Input
-                        id="email"
-                        name="email"
-                        placeholder="email giriniz"
-                        type="email"
+                        id="studentNo"
+                        name="studentNo"
+                        placeholder="numara giriniz"
+                        type="text"
                         onChange={handleChange}
-                        values={values.email}
+                        values={values.studentNo}
                       />
-                      {errors.email && errors.email ? (
-                        <div className="text-danger">* {errors.email}</div>
+                      {errors.studentNo && errors.studentNo ? (
+                        <div className="text-danger">* {errors.studentNo}</div>
                       ) : null}
                       <Label className="mt-2" for="password">Şifre</Label>
                       <Input
@@ -69,7 +69,7 @@ const SignIn = () => {
                       {errors.password && errors.password ? (
                         <div className="text-danger">* {errors.password}</div>
                       ) : null}
-                      <Button className="mt-2" color="primary">Giriş Yap</Button>
+                      <Button type="submit" className="mt-2" color="primary">Giriş Yap</Button>
                     </FormGroup>
                   </Form>
                 )}

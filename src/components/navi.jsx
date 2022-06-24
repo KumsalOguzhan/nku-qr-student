@@ -10,8 +10,8 @@ import {
 
 const Navi = () => {
   return (
-    <Navbar className="mb-3 rounded" color="primary" expand="md" dark>
-      <NavbarBrand href="/">QR Yoklama Sistemi</NavbarBrand>
+    <Navbar className="mb-3 rounded" color="success" expand="md" dark>
+      <NavbarBrand href="/">QR Öğrenci</NavbarBrand>
       <NavbarToggler onClick={function noRefCheck() {}} />
       <Collapse navbar>
         <Nav className="me-auto" navbar></Nav>

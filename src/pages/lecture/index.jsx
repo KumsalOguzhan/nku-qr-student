@@ -1,6 +1,5 @@
 import { React, useState, useEffect } from "react";
-import { Col, Row, Button } from "reactstrap";
-import { Link } from "react-router-dom";
+import { Col, Row } from "reactstrap";
 import api from "../../services/api";
 import DynamicTable from "../../components/dynamicTable";
 
@@ -82,13 +81,6 @@ const Index = () => {
     fetchClassroom();
   }, []);
 
-  const handleDelete = async (id) => {
-    await api
-      .delete(`lecturedelete/${id}`)
-      .then((response) => console.log(response));
-    setLectures(lectures.filter((item) => item.LectureID !== id));
-  };
-
   const handleSubjectName = (id) => {
     return subjects?.find((item) => item.SubjectID === id);
   };
@@ -105,12 +97,7 @@ const Index = () => {
     <div>
       <Row>
         <Col>
-          <h1>Atanmış Dersler</h1>
-        </Col>
-        <Col>
-          <Button className="float-end" color="dark" size="lg">
-            <Link to="create">Yeni Ders Ata</Link>
-          </Button>
+          <h1>Derslerim</h1>
         </Col>
       </Row>
       <Row>
@@ -137,23 +124,6 @@ const Index = () => {
                 },
                 {
                   element: handleClassroomName(lecture.ClassroomID)?.ClassNO,
-                  props: { className: "" },
-                },
-                {
-                  element: (
-                    <Link to={`update/${lecture.LectureID}`}>Düzenle</Link>
-                  ),
-                  props: { className: "text-primary" },
-                },
-                {
-                  element: (
-                    <Button
-                      onClick={() => handleDelete(lecture.LectureID)}
-                      color="danger"
-                    >
-                      Sil
-                    </Button>
-                  ),
                   props: { className: "" },
                 },
               ],
